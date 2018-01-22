@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  Include jquery - required for XHR requests -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!--  Include leaflet javascript and css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" crossorigin=""></script>
+    <!--  Include r360.js -->
+    <script src="https://releases.route360.net/r360-js/latest.js"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!--  Include leaflet javascript and css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" crossorigin=""></script>
+    <!--  Include angular stuff  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.9/angular-material.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.9/angular-material.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.js"></script>
+    <!--  Include r360.js and angular plugin -->
+    <script src="https://releases.route360.net/r360-js/latest.js"></script>
+    <script src="https://releases.route360.net/r360-angular/latest.js"></script>
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0; font-family: sans-serif; }
+        #map { width: 100%; height: 100%; }
+        .controls { position: absolute; bottom: 40px; left: 0px; right: 0px; z-index: 1000}
+        .button-group {
+            position: absolute; right: 10px; top: 10px; z-index: 1000;
+            box-shadow: 0 1px 5px rgba(0,0,0,.4); background-color: rgba(255,255,255,1);
+        }
+        .button {
+            font-family: sans-serif; text-transform: uppercase;
+            color: #666; cursor: pointer; padding: 10px; display: inline-block;
+        }
+        .button:hover { background-color: #EEE; }
+        .button.active { color: rgb(63,81,181); }
+        r360-rainbow { width: 420px; margin: auto; }
+        r360-rainbow label {
+            display: inline-block;
+            font-size: 13px;
+            margin: 0;
+            padding: .5rem 0;
+            text-align: center;
+            color: rgba(255,255,255,.8);
+        }
+    </style>
+</head>
+
+<body>
+<!--  where the map will live  -->
+<div id="map"></div>
+<div id="selectionBar" class="button-group">
+    <div id="btn-walk" onclick="changeMode(&apos;walk&apos;)" class="button"><i class="material-icons">directions_walk</i></div>
+    <div id="btn-bike" onclick="changeMode(&apos;bike&apos;)" class="button"><i class="material-icons">directions_bike</i></div>
+    <div id="btn-car" onclick="changeMode(&apos;car&apos;)" class="button active"><i class="material-icons">directions_car</i></div>
+    <div id="btn-transit" onclick="changeMode(&apos;transit&apos;)" class="button"><i class="material-icons">directions_transit</i></div>
+</div>
+
+<div ng-app="RainbowExample" ng-controller="RainbowExampleController as vm" class="controls" ng-cloak="" layout="column" layout-align="start end">
+    <r360-rainbow travel-time="vm.rainbowConf.travelTime" travel-time-range="vm.rainbowConf.range" color-range="vm.rainbowConf.colorRange">
+    </r360-rainbow>
+</div>
+
+<script>
+    var defaultApiKey = 'Q636WS2YQD7CLSB01BORJAA';
+    var mapboxMapID = 'mi.0ad4304c';
+    var mapboxPublicKey = 'pk.eyJ1IjoibWkiLCJhIjoia1RPVl9ZcyJ9.WrySAsiu-KvK9eYcMScLFQ';
+</script>
+<script>
+    angular.module('RainbowExample', ['ngMaterial', 'ng360'])
+        .controller("RainbowExampleController", function() {
+
+            var vm = this;
+            vm.rainbowConf = {
+                range: {times: [10, 20, 30]},
+                travelTime: 30,
+                colorRange: {
+                    "name": "Colorblind",
+                    "id": 1,
+//                    "colors": ["#142b66", "#9527BC", "#DF2A5C"],
+                    "colors": ["#2c7bb6", "#fdae61", "#d7191c"],
+                    "opacities": [1, 1, 1, 1, 1, 1]
+                }
+            };
+        });
+        var travelMode = 'car';
+        var latlons = {
+            map: [45.5259, -122.685],
+            src1: [45.531109, -122.697405],
+            src2: [45.529665, -122.613205]
+        };
+        var map = L.map('map', {zoomControl: false}).setView(latlons.map, 12);
+        map.attributionControl.addAttribution("<a href='https://navitia.opendatasoft.com/explore/dataset/us-or/table/' target='_blank'>GTFS Data</a>");
+        map.attributionControl.addAttribution("<a href='http://people.oregonstate.edu/~dongs/' target='_blank'>Shangjia Dong</a>");
+
+        L.control.zoom({position: 'bottomleft'}).addTo(map);
+
+        var sourceMarker1 = L.marker(latlons.src1, { draggable: true }).addTo(map);
+        var sourceMarker2 = L.marker(latlons.src2, { draggable: true }).addTo(map);
+
+
+        // initialise the base map
+        r360.basemap({style: 'light', apikey: defaultApiKey}).addTo(map);
+
+        // create a source and a two target markers and add them to the map
+//            var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
+
+        // create the layer to add the polygons
+        var polygonLayer = r360.leafletPolygonLayer().addTo(map);
+
+        // helper function to encapsulate the show polygon action
+        polygonLayer.setColors([
+            { 'time':  600, 'opacity': 1, 'color': '#2c7bb6' },
+            { 'time': 1200, 'opacity': 1, 'color': '#fdae61' },
+            { 'time': 1800, 'opacity': 1, 'color': '#d7191c' },
+        ]);
+        var showPolygons = function () {
+            var travelOptions = r360.travelOptions();
+            // add the predefined source to the map
+            travelOptions.addSource(sourceMarker1);
+            travelOptions.addSource(sourceMarker2);
+            // add some travel time values
+            travelOptions.setTravelTimes([600, 1200, 1800]);
+            // set inital travel time
+            travelOptions.setTravelType(travelMode);
+            // set the service API-key
+            travelOptions.setServiceKey(defaultApiKey);
+            // set the service url for your area
+            travelOptions.setServiceUrl('https://service.route360.net/northamerica/');
+            travelOptions.setIntersectionMode('union');
+
+            // call the service
+            r360.PolygonService.getTravelTimePolygons(travelOptions, function (polygons) {
+                // in case there are already polygons on the map/layer clear them
+                polygonLayer.clearAndAddLayers(polygons, true);
+            });
+        };
+
+        // call the helper function to display polygons with initial value
+        showPolygons();
+        // re-run the polygons when we move a marker
+//            sourceMarker.on('dragend', function () {
+//                showPolygons(true);
+//            });
+        sourceMarker1.on('dragend', function(){ showPolygons(true); });
+        sourceMarker2.on('dragend', function(){ showPolygons(true); });
+        // change polygons on button click
+        var changeMode = function (value) {
+            travelMode = value;
+            $("#selectionBar .active").removeClass('active');
+            $("#btn-" + value).addClass('active');
+            showPolygons();
+        }
+
+</script>
+</body>
+</html>
