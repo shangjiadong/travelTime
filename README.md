@@ -1,3 +1,3 @@
 # Transportation Network Reachability
 
-![website interface](/img/interface.png)
+![website interface](./img/interface.png)
