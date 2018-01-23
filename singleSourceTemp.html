@@ -1,23 +1,7 @@
+
 <!DOCTYPE html>
-<html lang = "en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Reachability</title>
-    <!-- Bootstrap Core CSS -->
-    <!--<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/modern-business.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="assets/favicon/travelTimeIcon1.ico" type="image/x-icon">
-
     <!--  Include jquery - required for XHR requests -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <!--  Include leaflet javascript and css -->
@@ -40,16 +24,12 @@
     <!--  Include r360.js and angular plugin -->
     <script src="https://releases.route360.net/r360-js/latest.js"></script>
     <script src="https://releases.route360.net/r360-angular/latest.js"></script>
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <style>
         html, body { width: 100%; height: 100%; margin: 0; font-family: sans-serif; }
         #map { width: 100%; height: 100%; }
         .controls { position: absolute; bottom: 40px; left: 0px; right: 0px; z-index: 1000}
         .button-group {
-            position: absolute; right: 10px; top: 65px; z-index: 1000;
+            position: absolute; right: 10px; top: 10px; z-index: 1000;
             box-shadow: 0 1px 5px rgba(0,0,0,.4); background-color: rgba(255,255,255,1);
         }
         .button {
@@ -71,76 +51,6 @@
 </head>
 
 <body>
-
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">
-                <img src="img/travelTimeIcon2.png" class="align-top" height="25px" align="left"> &nbsp;Transportation Network Accessibility
-            </a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="index.html">Home</a>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Scenario <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="multiResource.html">Single Origin</a>
-                        </li>
-                        <li>
-                            <a href="multiResource.html">Multiple Origins</a>
-                        </li>
-
-                    </ul>
-                </li>
-                <li>
-                    <a href="about.html">About</a>
-                </li>
-                <!--<li>-->
-                <!--<a href="services.html">Map</a>-->
-                <!--</li>-->
-                <li class = 'button'>
-                    <dt>
-                        <!--facebook icon-->
-                        <a class="fa fa-facebook-square btn fa-lg"
-                           href="https://www.facebook.com/sharer/sharer.php?u=https%3A//shangjiadong.github.io/travelTime/"
-                           target="_blank"></a>
-                    </dt>
-                </li>
-                <li class = 'button'>
-                    <dt>
-                        <!--facebook icon-->
-                        <a class="fa fa-github btn fa-lg" href="https://github.com/shangjiadong/travelTime"
-                           target="_blank"></a>
-                    </dt>
-                </li>
-                <li class = 'button'>
-                    <dt>
-                        <!--facebook icon-->
-                        <a class="fa fa-user btn fa-lg" href="http://people.oregonstate.edu/~dongs/"
-                           target="_blank"></a>
-                    </dt>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-
 <!--  where the map will live  -->
 <div id="map"></div>
 <div id="selectionBar" class="button-group">
@@ -178,26 +88,19 @@
             };
         });
     var travelMode = 'car';
-    var latlons = {
-        map: [45.5259, -122.685],
-        src1: [45.531109, -122.697405],
-        src2: [45.529665, -122.613205]
-    };
-    var map = L.map('map', {zoomControl: false}).setView(latlons.map, 12);
+    var latlon = [45.5259, -122.685];
+
+    var map = L.map('map', {zoomControl: false}).setView(latlon, 12);
     map.attributionControl.addAttribution("<a href='https://navitia.opendatasoft.com/explore/dataset/us-or/table/' target='_blank'>GTFS Data</a>");
     map.attributionControl.addAttribution("<a href='http://people.oregonstate.edu/~dongs/' target='_blank'>Shangjia Dong</a>");
 
     L.control.zoom({position: 'bottomleft'}).addTo(map);
 
-    var sourceMarker1 = L.marker(latlons.src1, { draggable: true }).addTo(map);
-    var sourceMarker2 = L.marker(latlons.src2, { draggable: true }).addTo(map);
-
-
     // initialise the base map
-    r360.basemap({style: 'basic', apikey: defaultApiKey}).addTo(map);
+    r360.basemap({style: 'light', apikey: defaultApiKey}).addTo(map);
 
     // create a source and a two target markers and add them to the map
-    //            var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
+    var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
 
     // create the layer to add the polygons
     var polygonLayer = r360.leafletPolygonLayer().addTo(map);
@@ -211,8 +114,7 @@
     var showPolygons = function () {
         var travelOptions = r360.travelOptions();
         // add the predefined source to the map
-        travelOptions.addSource(sourceMarker1);
-        travelOptions.addSource(sourceMarker2);
+        travelOptions.addSource(sourceMarker);
         // add some travel time values
         travelOptions.setTravelTimes([600, 1200, 1800]);
         // set inital travel time
@@ -221,7 +123,6 @@
         travelOptions.setServiceKey(defaultApiKey);
         // set the service url for your area
         travelOptions.setServiceUrl('https://service.route360.net/northamerica/');
-        travelOptions.setIntersectionMode('union');
 
         // call the service
         r360.PolygonService.getTravelTimePolygons(travelOptions, function (polygons) {
@@ -233,11 +134,10 @@
     // call the helper function to display polygons with initial value
     showPolygons();
     // re-run the polygons when we move a marker
-    //            sourceMarker.on('dragend', function () {
-    //                showPolygons(true);
-    //            });
-    sourceMarker1.on('dragend', function(){ showPolygons(true); });
-    sourceMarker2.on('dragend', function(){ showPolygons(true); });
+    sourceMarker.on('dragend', function () {
+        showPolygons(true);
+    });
+
     // change polygons on button click
     var changeMode = function (value) {
         travelMode = value;
@@ -247,17 +147,5 @@
     }
 
 </script>
-
-<!-- jQuery -->
-<script src="js/jquery.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
-
-<!-- Contact Form JavaScript -->
-<!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
-<script src="js/jqBootstrapValidation.js"></script>
-<script src="js/contact_me.js"></script>
-
 </body>
 </html>

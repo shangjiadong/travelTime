@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -16,7 +17,7 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="shortcut icon" href="assets/favicon/travelTimeIcon3.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/favicon/travelTimeIcon1.ico" type="image/x-icon">
 
     <!--  Include jquery - required for XHR requests -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -83,7 +84,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="index.html">
-                <img src="img/travelTimeIcon3.png" class="align-top" height="25px" align="left"> &nbsp; &nbsp; &nbsp;TransNetAcce
+                <img src="img/travelTimeIcon2.png" class="align-top" height="25px" align="left"> &nbsp;Transportation Network Accessibility
             </a>
         </div>
 
@@ -141,98 +142,102 @@
     <!-- /.container -->
 </nav>
 
-<!-- Header Carousel -->
-<header id="myCarousel" class="carousel slide">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-
-        <div class="item active">
-            <div class="fill" style="background-image:url('img/traffic.jpeg');"></div>
-            <div class="carousel-caption">
-                <!--<h2>Travel Time</h2>-->
-            </div>
-        </div>
-
-        <div class="item">
-            <div class="fill" style="background-image:url('img/intersection.jpeg');"></div>
-            <div class="carousel-caption">
-                <!--<h2>Travel Time</h2>-->
-            </div>
-        </div>
-        <div class="item">
-            <div class="fill" style="background-image:url('img/metro1.jpg');"></div>
-            <div class="carousel-caption">
-                <!--<h2>Bridge Failure Mobility Impact</h2>-->
-            </div>
-        </div>
-        <div class="item">
-            <div class="fill" style="background-image:url('img/bike.jpg');"></div>
-            <div class="carousel-caption">
-                <!--<h2>Bridge Failure Analysis</h2>-->
-            </div>
-        </div>
-
-
-    </div>
-
-    <!-- Controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-        <span class="icon-prev"></span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-        <span class="icon-next"></span>
-    </a>
-</header>
-
-<!-- Page Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-
-            </h1>
-        </div>
-    <div class="row">
-        <div class="col-md-3">
-            <img class="img-responsive" height="20px" src="img/travelTimeIcon.png" alt="">
-        </div>
-        <div class="col-md-9">
-            <!--<h2>How Far Can I Travel?</h2>-->
-            <p> When it comes to travel time, people using Google map or GPS to estimate the travel time from origin A to destination B. </p>
-        </div>
-    </div>
-
-
-    <hr>
-
-    <!-- Call to Action Section -->
-    <div class="well">
-        <div class="row">
-            <div class="col-md-8">
-                <p>Copyright &copy; <a href= "http://cce.oregonstate.edu/wang"> Shangjia Dong </a> 2018.
-            </div>
-        </div>
-    </div>
-
-    <!--&lt;!&ndash; Footer &ndash;&gt;-->
-    <!--<footer>-->
-        <!--<div class="row">-->
-            <!--<div class="col-lg-12">-->
-                <!--<p>Copyright &copy; Shangjia Dong 2017</p>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</footer>-->
-
+<!--  where the map will live  -->
+<div id="map"></div>
+<div id="selectionBar" class="button-group">
+    <div id="btn-walk" onclick="changeMode(&apos;walk&apos;)" class="button"><i class="material-icons">directions_walk</i></div>
+    <div id="btn-bike" onclick="changeMode(&apos;bike&apos;)" class="button"><i class="material-icons">directions_bike</i></div>
+    <div id="btn-car" onclick="changeMode(&apos;car&apos;)" class="button active"><i class="material-icons">directions_car</i></div>
+    <div id="btn-transit" onclick="changeMode(&apos;transit&apos;)" class="button"><i class="material-icons">directions_transit</i></div>
 </div>
+
+<div ng-app="RainbowExample" ng-controller="RainbowExampleController as vm" class="controls" ng-cloak="" layout="column" layout-align="start end">
+    <r360-rainbow travel-time="vm.rainbowConf.travelTime" travel-time-range="vm.rainbowConf.range" color-range="vm.rainbowConf.colorRange">
+    </r360-rainbow>
+</div>
+
+<script>
+    var defaultApiKey = 'Q636WS2YQD7CLSB01BORJAA';
+    var mapboxMapID = 'mi.0ad4304c';
+    var mapboxPublicKey = 'pk.eyJ1IjoibWkiLCJhIjoia1RPVl9ZcyJ9.WrySAsiu-KvK9eYcMScLFQ';
+</script>
+<script>
+    angular.module('RainbowExample', ['ngMaterial', 'ng360'])
+        .controller("RainbowExampleController", function() {
+
+            var vm = this;
+            vm.rainbowConf = {
+                range: {times: [10, 20, 30]},
+                travelTime: 30,
+                colorRange: {
+                    "name": "Colorblind",
+                    "id": 1,
+//                    "colors": ["#142b66", "#9527BC", "#DF2A5C"],
+                    "colors": ["#2c7bb6", "#fdae61", "#d7191c"],
+                    "opacities": [1, 1, 1, 1, 1, 1]
+                }
+            };
+        });
+    var travelMode = 'car';
+    var latlon = [45.5259, -122.685];
+
+    var map = L.map('map', {zoomControl: false}).setView(latlon, 12);
+    map.attributionControl.addAttribution("<a href='https://navitia.opendatasoft.com/explore/dataset/us-or/table/' target='_blank'>GTFS Data</a>");
+    map.attributionControl.addAttribution("<a href='http://people.oregonstate.edu/~dongs/' target='_blank'>Shangjia Dong</a>");
+
+    L.control.zoom({position: 'bottomleft'}).addTo(map);
+
+    // initialise the base map
+    r360.basemap({style: 'basic', apikey: defaultApiKey}).addTo(map);
+
+    // create a source and a two target markers and add them to the map
+    var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
+
+    // create the layer to add the polygons
+    var polygonLayer = r360.leafletPolygonLayer().addTo(map);
+
+    // helper function to encapsulate the show polygon action
+    polygonLayer.setColors([
+        { 'time':  600, 'opacity': 1, 'color': '#2c7bb6' },
+        { 'time': 1200, 'opacity': 1, 'color': '#fdae61' },
+        { 'time': 1800, 'opacity': 1, 'color': '#d7191c' },
+    ]);
+    var showPolygons = function () {
+        var travelOptions = r360.travelOptions();
+        // add the predefined source to the map
+        travelOptions.addSource(sourceMarker);
+        // add some travel time values
+        travelOptions.setTravelTimes([600, 1200, 1800]);
+        // set inital travel time
+        travelOptions.setTravelType(travelMode);
+        // set the service API-key
+        travelOptions.setServiceKey(defaultApiKey);
+        // set the service url for your area
+        travelOptions.setServiceUrl('https://service.route360.net/northamerica/');
+
+        // call the service
+        r360.PolygonService.getTravelTimePolygons(travelOptions, function (polygons) {
+            // in case there are already polygons on the map/layer clear them
+            polygonLayer.clearAndAddLayers(polygons, true);
+        });
+    };
+
+    // call the helper function to display polygons with initial value
+    showPolygons();
+    // re-run the polygons when we move a marker
+    sourceMarker.on('dragend', function () {
+        showPolygons(true);
+    });
+
+    // change polygons on button click
+    var changeMode = function (value) {
+        travelMode = value;
+        $("#selectionBar .active").removeClass('active');
+        $("#btn-" + value).addClass('active');
+        showPolygons();
+    }
+
+</script>
 
 <!-- jQuery -->
 <script src="js/jquery.js"></script>
