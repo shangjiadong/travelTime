@@ -87,6 +87,7 @@
             </a>
         </div>
 
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -98,10 +99,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Scenario <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="multiResource.html">Single Origin</a>
+                            <a href="singleSource.html">Single Origin</a>
                         </li>
                         <li>
-                            <a href="multiResource.html">Multiple Origins</a>
+                            <a href="multiSource.html">Multiple Origins</a>
                         </li>
 
                     </ul>
@@ -198,7 +199,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-
+                Transportation Network Reachability
             </h1>
         </div>
     <div class="row">
@@ -207,7 +208,15 @@
         </div>
         <div class="col-md-9">
             <!--<h2>How Far Can I Travel?</h2>-->
-            <p> When it comes to travel time, people using Google map or GPS to estimate the travel time from origin A to destination B. </p>
+            <p> When it comes to travel time, the common case is: given origin A and destination B, how long does it take to travel between the locations?
+                Google map and GPS are the tools we use to acquire this information. However, have you wondered this question: how far can you go in 30 minutes?
+                This might happened to you when you are in a new place, and want to have a tour of the city, or you want to test how is the traffic condition, or
+                how convenient is the transit. </p>
+            <p> The problem can be answered by the network reachability: given one or multiple initial source, how far we can go in a specific amount of time
+                respecting network constraints (i.e. traffic condition) and travel modes (i.e., pedestrian, bike, car, transit). This problem can be very common in
+                transportation planning process. Knowing the reachability of the infrastructure/facility can help optimize the locating problem. Hereby, I developed
+                this web tool based on <a href="http://www.route360.net/"> route360</a> API. It can help transportation engineers to efficiently check the reachability
+                from one or multiple locations. I have also developed scenarios to check the reachability to major hospitals in Portland Metro area.</p>
         </div>
     </div>
 
@@ -218,7 +227,7 @@
     <div class="well">
         <div class="row">
             <div class="col-md-8">
-                <p>Copyright &copy; <a href= "http://cce.oregonstate.edu/wang"> Shangjia Dong </a> 2018.
+                <p align="left">Copyright &copy; <a href= "http://people.oregonstate.edu/~dongs/"> Shangjia Dong </a> 2018.
             </div>
         </div>
     </div>
