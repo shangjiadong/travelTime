@@ -171,53 +171,152 @@
 
             var vm = this;
             vm.rainbowConf = {
-                range: {times: [10, 20, 30]},
-                travelTime: 30,
+                range: {times: [1, 3, 5]},
+                travelTime: 5,
                 colorRange: {
                     "name": "Colorblind",
                     "id": 1,
 //                    "colors": ["#142b66", "#9527BC", "#DF2A5C"],
                     "colors": ["#2c7bb6", "#fdae61", "#d7191c"],
-                    "opacities": [1, 1, 1, 1, 1, 1]
+//                    "colors": ["#3288bd", "#99d594", "#e6f598", "#fee08b", "#fc8d59", "#d53e4f" ],
+//                    "colors": ["#4575b4", "#fee090", "#d73027"],
+
+                    "opacities": [1, 1, 1, 1, 1]
                 }
             };
         });
     var travelMode = 'car';
-    var latlon = [45.5259, -122.685];
-
-    var map = L.map('map', {zoomControl: false}).setView(latlon, 12);
+    var latlons = {
+        map: [45.5259, -122.685],
+        src1: [45.5218692,-122.6705670],
+        src2: [45.557819,-122.53669000000002],
+        src3: [45.5288593,-122.68877450000002],
+        src4: [45.5097563,-122.68287050000004],
+        src5: [45.4804206,-122.69331269999998],
+        src6: [45.5488788,-122.70602500000001],
+        src7: [45.5126685,-122.5372006],
+        src8: [45.5750467,-122.68058759999997],
+        src9: [45.5107113,-122.6223933],
+        src10: [45.4634517,-122.68297080000002],
+        src11: [45.4811431,-122.5690002],
+        src12: [45.5545792,-122.57395700000001],
+        src13: [45.5340977,-122.65584469999999],
+        src14: [45.564478,-122.64476200000001],
+        src15: [45.509014,-122.6988058],
+        src16: [45.510859,-122.73595799999998],
+        src17: [45.6096689,-122.6757293],
+        src18: [45.4619367,-122.7074614],
+        src19: [45.52321999999999,-122.587693],
+        src20: [45.4741911,-122.64209349999999],
+        src21: [45.5132675,-122.66834489999997],
+        src22: [45.5900569,-122.75685269999997],
+        src23: [45.5018322,-122.65260089999998],
+        src24: [45.5558056,-122.68146630000001],
+        src25: [45.4915566,-122.60868110000001],
+        src26: [45.5822034,-122.72258],
+        src27: [45.5446789,-122.76051419999999],
+        src28: [45.5415158,-122.60582260000001],
+        src29: [45.4767681,-122.52649810000003],
+        src30: [45.5375253,-122.52586930000001],
+        src31: [45.5086582,-122.48572949999999]
+    };
+    var map = L.map('map', {zoomControl: false}).setView(latlons.map, 12);
     map.attributionControl.addAttribution("<a href='https://navitia.opendatasoft.com/explore/dataset/us-or/table/' target='_blank'>GTFS Data</a>");
     map.attributionControl.addAttribution("<a href='http://people.oregonstate.edu/~dongs/' target='_blank'>Shangjia Dong</a>");
 
     L.control.zoom({position: 'bottomleft'}).addTo(map);
 
+    var sourceMarker1 = L.marker(latlons.src1, { draggable: true }).addTo(map);
+//    var sourceMarker2 = L.marker(latlons.src2, { draggable: true }).addTo(map);
+    var sourceMarker3 = L.marker(latlons.src3, { draggable: true }).addTo(map);
+    var sourceMarker4 = L.marker(latlons.src4, { draggable: true }).addTo(map);
+    var sourceMarker5 = L.marker(latlons.src5, { draggable: true }).addTo(map);
+    var sourceMarker6 = L.marker(latlons.src6, { draggable: true }).addTo(map);
+//    var sourceMarker7 = L.marker(latlons.src7, { draggable: true }).addTo(map);
+    var sourceMarker8 = L.marker(latlons.src8, { draggable: true }).addTo(map);
+    var sourceMarker9 = L.marker(latlons.src9, { draggable: true }).addTo(map);
+    var sourceMarker10 = L.marker(latlons.src10, { draggable: true }).addTo(map);
+//    var sourceMarker11 = L.marker(latlons.src11, { draggable: true }).addTo(map);
+    var sourceMarker12 = L.marker(latlons.src12, { draggable: true }).addTo(map);
+    var sourceMarker13 = L.marker(latlons.src13, { draggable: true }).addTo(map);
+    var sourceMarker14 = L.marker(latlons.src14, { draggable: true }).addTo(map);
+    var sourceMarker15 = L.marker(latlons.src15, { draggable: true }).addTo(map);
+    var sourceMarker16 = L.marker(latlons.src16, { draggable: true }).addTo(map);
+    var sourceMarker17 = L.marker(latlons.src17, { draggable: true }).addTo(map);
+    var sourceMarker18 = L.marker(latlons.src18, { draggable: true }).addTo(map);
+    var sourceMarker19 = L.marker(latlons.src19, { draggable: true }).addTo(map);
+    var sourceMarker20 = L.marker(latlons.src20, { draggable: true }).addTo(map);
+    var sourceMarker21 = L.marker(latlons.src21, { draggable: true }).addTo(map);
+    var sourceMarker22 = L.marker(latlons.src22, { draggable: true }).addTo(map);
+    var sourceMarker23 = L.marker(latlons.src23, { draggable: true }).addTo(map);
+    var sourceMarker24 = L.marker(latlons.src24, { draggable: true }).addTo(map);
+    var sourceMarker25 = L.marker(latlons.src25, { draggable: true }).addTo(map);
+    var sourceMarker26 = L.marker(latlons.src26, { draggable: true }).addTo(map);
+    var sourceMarker27 = L.marker(latlons.src27, { draggable: true }).addTo(map);
+    var sourceMarker28 = L.marker(latlons.src28, { draggable: true }).addTo(map);
+//    var sourceMarker29 = L.marker(latlons.src29, { draggable: true }).addTo(map);
+//    var sourceMarker30 = L.marker(latlons.src30, { draggable: true }).addTo(map);
+//    var sourceMarker31 = L.marker(latlons.src31, { draggable: true }).addTo(map);
+
     // initialise the base map
     r360.basemap({style: 'basic', apikey: defaultApiKey}).addTo(map);
 
     // create a source and a two target markers and add them to the map
-    var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
+    //            var sourceMarker = L.marker(latlon, {draggable: true}).addTo(map);
 
     // create the layer to add the polygons
     var polygonLayer = r360.leafletPolygonLayer().addTo(map);
 
     // helper function to encapsulate the show polygon action
     polygonLayer.setColors([
-        { 'time':  600, 'opacity': 1, 'color': '#2c7bb6' },
-        { 'time': 1200, 'opacity': 1, 'color': '#fdae61' },
-        { 'time': 1800, 'opacity': 1, 'color': '#d7191c' },
+        { 'time':  60, 'opacity': 1, 'color': '#2c7bb6' },
+        { 'time': 180, 'opacity': 1, 'color': '#fdae61' },
+        { 'time': 300, 'opacity': 1, 'color': '#d7191c' }
     ]);
     var showPolygons = function () {
         var travelOptions = r360.travelOptions();
         // add the predefined source to the map
-        travelOptions.addSource(sourceMarker);
+        travelOptions.addSource(sourceMarker1);
+//        travelOptions.addSource(sourceMarker2);
+        travelOptions.addSource(sourceMarker3);
+        travelOptions.addSource(sourceMarker4);
+        travelOptions.addSource(sourceMarker5);
+        travelOptions.addSource(sourceMarker6);
+//        travelOptions.addSource(sourceMarker7);
+        travelOptions.addSource(sourceMarker8);
+        travelOptions.addSource(sourceMarker9);
+        travelOptions.addSource(sourceMarker10);
+//        travelOptions.addSource(sourceMarker11);
+        travelOptions.addSource(sourceMarker12);
+        travelOptions.addSource(sourceMarker13);
+        travelOptions.addSource(sourceMarker14);
+        travelOptions.addSource(sourceMarker15);
+        travelOptions.addSource(sourceMarker16);
+        travelOptions.addSource(sourceMarker17);
+        travelOptions.addSource(sourceMarker18);
+        travelOptions.addSource(sourceMarker19);
+        travelOptions.addSource(sourceMarker20);
+        travelOptions.addSource(sourceMarker21);
+        travelOptions.addSource(sourceMarker22);
+        travelOptions.addSource(sourceMarker23);
+        travelOptions.addSource(sourceMarker24);
+        travelOptions.addSource(sourceMarker25);
+        travelOptions.addSource(sourceMarker26);
+        travelOptions.addSource(sourceMarker27);
+        travelOptions.addSource(sourceMarker28);
+//        travelOptions.addSource(sourceMarker29);
+//        travelOptions.addSource(sourceMarker30);
+//        travelOptions.addSource(sourceMarker31);
+
         // add some travel time values
-        travelOptions.setTravelTimes([600, 1200, 1800]);
+        travelOptions.setTravelTimes([60, 180, 300]);
         // set inital travel time
         travelOptions.setTravelType(travelMode);
         // set the service API-key
         travelOptions.setServiceKey(defaultApiKey);
         // set the service url for your area
         travelOptions.setServiceUrl('https://service.route360.net/northamerica/');
+        travelOptions.setIntersectionMode('union');
 
         // call the service
         r360.PolygonService.getTravelTimePolygons(travelOptions, function (polygons) {
@@ -229,10 +328,40 @@
     // call the helper function to display polygons with initial value
     showPolygons();
     // re-run the polygons when we move a marker
-    sourceMarker.on('dragend', function () {
-        showPolygons(true);
-    });
-
+    //            sourceMarker.on('dragend', function () {
+    //                showPolygons(true);
+    //            });
+    sourceMarker1.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker2.on('dragend', function(){ showPolygons(true); });
+    sourceMarker3.on('dragend', function(){ showPolygons(true); });
+    sourceMarker4.on('dragend', function(){ showPolygons(true); });
+    sourceMarker5.on('dragend', function(){ showPolygons(true); });
+    sourceMarker6.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker7.on('dragend', function(){ showPolygons(true); });
+    sourceMarker8.on('dragend', function(){ showPolygons(true); });
+    sourceMarker9.on('dragend', function(){ showPolygons(true); });
+    sourceMarker10.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker11.on('dragend', function(){ showPolygons(true); });
+    sourceMarker12.on('dragend', function(){ showPolygons(true); });
+    sourceMarker13.on('dragend', function(){ showPolygons(true); });
+    sourceMarker14.on('dragend', function(){ showPolygons(true); });
+    sourceMarker15.on('dragend', function(){ showPolygons(true); });
+    sourceMarker16.on('dragend', function(){ showPolygons(true); });
+    sourceMarker17.on('dragend', function(){ showPolygons(true); });
+    sourceMarker18.on('dragend', function(){ showPolygons(true); });
+    sourceMarker19.on('dragend', function(){ showPolygons(true); });
+    sourceMarker20.on('dragend', function(){ showPolygons(true); });
+    sourceMarker21.on('dragend', function(){ showPolygons(true); });
+    sourceMarker22.on('dragend', function(){ showPolygons(true); });
+    sourceMarker23.on('dragend', function(){ showPolygons(true); });
+    sourceMarker24.on('dragend', function(){ showPolygons(true); });
+    sourceMarker25.on('dragend', function(){ showPolygons(true); });
+    sourceMarker26.on('dragend', function(){ showPolygons(true); });
+    sourceMarker27.on('dragend', function(){ showPolygons(true); });
+    sourceMarker28.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker29.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker30.on('dragend', function(){ showPolygons(true); });
+//    sourceMarker31.on('dragend', function(){ showPolygons(true); });
     // change polygons on button click
     var changeMode = function (value) {
         travelMode = value;
